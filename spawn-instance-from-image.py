@@ -25,7 +25,7 @@ def lambda_handler(object, context):
     image_id = images[0]['ImageId']
     image_name = images[0]['Name']
 
-    print("Spawning new instance based on image ID: {}".format(image_id))
+    print("Spawning new instance {}, based on image ID: {}".format(image_name, image_id))
     res_client.create_instances(
         ImageId=image_id,
         MinCount=1,
