@@ -81,7 +81,6 @@ def lambda_handler(object, context):
         # Get all volumes for the given instance
         for volume in volumes:
             v = res_client.Volume(volume['VolumeId'])
-            # TODO: this goes through but never outputs to console?
             print("Deleting EBS volume: {}, Size: {} GiB".format(v.id, v.size))
             v.delete()
 
