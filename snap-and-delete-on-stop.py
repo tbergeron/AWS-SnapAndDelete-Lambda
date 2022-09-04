@@ -1,8 +1,9 @@
 import boto3
 import botocore
-import time
+from datetime import datetime
+now = datetime.now()
 
-GAMING_INSTANCE_NAME = 'WHATEVER_YOU_WANT' # use whatever name you want, it doesn't matter
+GAMING_INSTANCE_NAME = 'WHATEVER_YOU_WANT' # use whatever name you want, max 110 chars
 GAMING_INSTANCE_REGION = 'ap-east-1' # change that to your AWS region
 
 def lambda_handler(object, context):
@@ -40,7 +41,7 @@ def lambda_handler(object, context):
 
     ami = ec2.create_image(
         InstanceId=instance_id,
-        Name=GAMING_INSTANCE_NAME + ' ' + time.now(),
+        Name=GAMING_INSTANCE_NAME + ' ' + now.strftime("%Y%m%d%H%M"),
         Description=GAMING_INSTANCE_NAME + ' Automatic AMI'
     )
 

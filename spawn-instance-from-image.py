@@ -21,8 +21,9 @@ def lambda_handler(object, context):
     images = ec2.describe_images(Owners=['self'])['Images']
     images.sort(key=image_sort)
 
-    print("Retaining last created image ID")
+    print("Retaining last created image ID and name")
     image_id = images[0]['ImageId']
+    image_name = images[0]['Name']
 
     print("Spawning new instance based on image ID: {}".format(image_id))
     res_client.create_instances(
@@ -30,7 +31,18 @@ def lambda_handler(object, context):
         MinCount=1,
         MaxCount=1,
         InstanceType=INSTANCE_TYPE,
-        KeyName=KEYPAIR_NAME
+        KeyName=KEYPAIR_NAME,
+        TagSpecifications=[
+            {
+                'ResourceType': 'instance',
+                'Tags': [
+                    {
+                        'Key': 'Name',
+                        'Value': image_name
+                    },
+                ]
+            },
+        ]
     )
 
     print("Done.")
