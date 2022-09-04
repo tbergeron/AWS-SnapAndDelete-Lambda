@@ -1,6 +1,8 @@
 import boto3
 import botocore
+from random import randint
 from datetime import datetime
+import time
 now = datetime.now()
 
 GAMING_INSTANCE_NAME = 'WHATEVER_YOU_WANT' # use whatever name you want, max 110 chars
@@ -11,7 +13,7 @@ def lambda_handler(object, context):
 
     print("SnapAndDelete! Instance ID: {}".format(instance_id))
 
-    print("Connect to region...")
+    print("Connecting to region...")
     ec2 = boto3.client('ec2')
     ec2 = boto3.client('ec2',region_name=GAMING_INSTANCE_REGION)
     res_client = boto3.resource('ec2', region_name=GAMING_INSTANCE_REGION)
@@ -34,6 +36,15 @@ def lambda_handler(object, context):
                     print('Deleting snapshot {}'.format(snapshotId))
                     ec2.delete_snapshot(SnapshotId=snapshotId)
 
+    print("Waiting for instance to be fully stopped...")
+    instance_stopped_waiter = ec2.get_waiter('instance_stopped')
+    try:
+        instance_stopped_waiter.wait(InstanceIds=[instance_id])
+    except botocore.exceptions.WaiterError as e:
+        print("Something wrong happen while waiting for instance to stop, aborting")
+        print(e.message)
+        return
+
     amis_created = []
 
     print("Waiting for the image to get created...")
@@ -41,7 +52,7 @@ def lambda_handler(object, context):
 
     ami = ec2.create_image(
         InstanceId=instance_id,
-        Name=GAMING_INSTANCE_NAME + ' ' + now.strftime("%Y%m%d%H%M"),
+        Name=GAMING_INSTANCE_NAME + '-' + now.strftime("%Y%m%d%H%M") + '-' + str(randint(10000, 99999)),
         Description=GAMING_INSTANCE_NAME + ' Automatic AMI'
     )
 
