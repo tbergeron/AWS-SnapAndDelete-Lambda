@@ -10,7 +10,7 @@ def lambda_handler(object, context):
 
     print("SnapAndDelete! Instance ID: {}".format(instance_id))
 
-    # Connect to region
+    print("Connect to region...")
     ec2 = boto3.client('ec2')
     ec2 = boto3.client('ec2',region_name=GAMING_INSTANCE_REGION)
     res_client = boto3.resource('ec2', region_name=GAMING_INSTANCE_REGION)
@@ -40,7 +40,7 @@ def lambda_handler(object, context):
 
     ami = ec2.create_image(
         InstanceId=instance_id,
-        Name=GAMING_INSTANCE_NAME + ' ' + time.strftime("%Y-%m-%d"),
+        Name=GAMING_INSTANCE_NAME + ' ' + time.now(),
         Description=GAMING_INSTANCE_NAME + ' Automatic AMI'
     )
 
