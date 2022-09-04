@@ -19,7 +19,7 @@ def lambda_handler(object, context):
 
     print("Fetching images...")
     images = ec2.describe_images(Owners=['self'])['Images']
-    images.sort(key=image_sort)
+    images.sort(key=image_sort, reverse=True)
 
     print("Retaining last created image ID and name")
     image_id = images[0]['ImageId']
