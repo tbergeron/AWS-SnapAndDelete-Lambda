@@ -50,9 +50,11 @@ def lambda_handler(object, context):
     print("Waiting for the image to get created...")
     ami_waiter = ec2.get_waiter('image_available')
 
+    ami_name = GAMING_INSTANCE_NAME + '-' + now.strftime("%Y%m%d%H%M") + '-' + str(randint(10000, 99999))
+
     ami = ec2.create_image(
         InstanceId=instance_id,
-        Name=GAMING_INSTANCE_NAME + '-' + now.strftime("%Y%m%d%H%M") + '-' + str(randint(10000, 99999)),
+        Name=ami_name,
         Description=GAMING_INSTANCE_NAME + ' Automatic AMI'
     )
 
@@ -70,7 +72,7 @@ def lambda_handler(object, context):
         Resources=amis_created,
         Tags=[
             {'Key': 'SnapAndDelete', 'Value': 'True'},
-            {'Key': 'Name', 'Value': GAMING_INSTANCE_NAME}
+            {'Key': 'Name', 'Value': ami_name}
         ]
     )
 
