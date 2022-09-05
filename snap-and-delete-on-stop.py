@@ -18,6 +18,15 @@ def lambda_handler(object, context):
     ec2 = boto3.client('ec2',region_name=GAMING_INSTANCE_REGION)
     res_client = boto3.resource('ec2', region_name=GAMING_INSTANCE_REGION)
 
+    print("Waiting for instance to be fully stopped...")
+    instance_stopped_waiter = ec2.get_waiter('instance_stopped')
+    try:
+        instance_stopped_waiter.wait(InstanceIds=[instance_id])
+    except botocore.exceptions.WaiterError as e:
+        print("Something wrong happen while waiting for instance to stop, aborting")
+        print(e.message)
+        return
+
     # Delete any current AMIs
     images = ec2.describe_images(Owners=['self'])['Images']
     for ami in images:
@@ -25,7 +34,6 @@ def lambda_handler(object, context):
             continue
         for tag in ami['Tags']:
             if tag['Key'] == 'SnapAndDelete' and tag['Value'] == 'True':
-                print('Retaining all snapshotIds associated to that image {}'.format(ami['ImageId']))
                 snapshotIds = [device['Ebs']['SnapshotId'] for device in ami['BlockDeviceMappings'] if 'Ebs' in device]
 
                 print('Deleting image {}'.format(ami['ImageId']))
@@ -36,21 +44,12 @@ def lambda_handler(object, context):
                     print('Deleting snapshot {}'.format(snapshotId))
                     ec2.delete_snapshot(SnapshotId=snapshotId)
 
-    print("Waiting for instance to be fully stopped...")
-    instance_stopped_waiter = ec2.get_waiter('instance_stopped')
-    try:
-        instance_stopped_waiter.wait(InstanceIds=[instance_id])
-    except botocore.exceptions.WaiterError as e:
-        print("Something wrong happen while waiting for instance to stop, aborting")
-        print(e.message)
-        return
-
     amis_created = []
 
     print("Waiting for the image to get created...")
     ami_waiter = ec2.get_waiter('image_available')
 
-    ami_name = GAMING_INSTANCE_NAME + '-' + now.strftime("%Y%m%d%H%M") + '-' + str(randint(10000, 99999))
+    ami_name = GAMING_INSTANCE_NAME + '-' + now.strftime("%Y%m%d") + '-' + str(randint(10000, 99999))
 
     ami = ec2.create_image(
         InstanceId=instance_id,
