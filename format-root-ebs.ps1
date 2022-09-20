@@ -6,19 +6,19 @@ $newDisks = Get-Disk | Where-Object PartitionStyle –Eq 'RAW'
 $usedLetters = (Get-Volume).DriveLetter
 
 foreach ($disk in $newDisks){
-    echo "set disk to online"
+    echo "Set disk to online"
     try {
         Set-Disk -Number $disk.Number -IsOffline $False
     }
     catch {
-        echo "could not get disk online"
+        echo "Could not get disk online"
     }
-    echo "create partition"
+    echo "Create partition"
     try {
         Initialize-Disk -Number $disk.Number -PartitionStyle "MBR"
     }
     catch {
-        echo "initialization failed"
+        echo "Initialization failed"
     }
     try {
         $partition = New-Partition -DiskNumber $disk.Number -UseMaximumSize
@@ -27,14 +27,14 @@ foreach ($disk in $newDisks){
         $partition | Set-Partition -NewDriveLetter G
     }
     catch {
-        echo "partition failed"
+        echo "Partition failed"
     }
 
-    echo "finally format the drive with the letter"
+    echo "Finally format the drive with the letter"
     try {
         Format-Volume -DriveLetter G -FileSystem NTFS -Confirm:$FALSE
     }
     catch {
-        echo "format failed"
+        echo "Format failed"
     }
 }
