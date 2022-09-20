@@ -22,6 +22,7 @@ foreach ($disk in $newDisks){
     }
     try {
         $partition = New-Partition -DiskNumber $disk.Number -UseMaximumSize
+        # CHANGE LETTER BASED ON YOUR NEEDS
         echo "assign letter G to drive"
         $partition | Set-Partition -NewDriveLetter G
     }
