@@ -2,7 +2,7 @@
 - those scripts are provided AS-IS, if you are not well experienced with AWS **PLEASE DO NOT USE!**
   - AWS bills can go crazy high FAST if you don't know what you're doing.
   - if something wrong happens, i am **not** responsible.
-  - **i will provide no support for these, they are just scripts i've built for myself**
+  - **i will provide no support for these**.
 
 # Random bits of advice
 - use `gp3` instead of `gp2` for volume types, it is most cost efficient / cheaper by about 30%
