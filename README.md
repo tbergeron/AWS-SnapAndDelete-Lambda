@@ -55,5 +55,5 @@ lambda scripts for start/stop instances for cloud gaming in a cost-effective way
     - Create a `startFormatRootEBS.cmd` file and do something like:
 ```
 PowerShell -Command "Set-ExecutionPolicy Unrestricted" >> "%TEMP%\StartupLog.txt" 2>&1
-PowerShell %USERPROFILE%\Desktop\script.ps1 >> "%TEMP%\StartupLog.txt" 2>&1
+PowerShell %USERPROFILE%\Desktop\format-root-ebs.ps1 >> "%TEMP%\StartupLog.txt" 2>&1
 ```
