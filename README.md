@@ -46,7 +46,7 @@ lambda scripts for start/stop instances for cloud gaming in a cost-effective way
 - create a function URL (in the lambda configuration) that you can call via `curl`
 - call that url whenever you need to spawn an instance of the last created AMI
 
-# `formatRootEBS.ps1`
+# `format-root-ebs.ps1`
 - This script is meant to be ran ON the instance.
 - CHANGE THE DRIVE LETTER based on your needs (hardcoded to `G`)
 - Script that can be executed on startup to format the ephemeral EBS root volume to NTFS.
