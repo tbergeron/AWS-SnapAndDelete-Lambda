@@ -9,8 +9,8 @@
   - snapshots are about half cheaper and archives are maybe 10 times even cheaper.
 - as this script uses, `g4dn` are IMO the best instance type to use at the moment and it is good enough to run most AAA games.
 - for huge games like Red Dead Redemption, a costly yet efficient way to speed up loading times and in-game texture streaming is to increase the volume `Throughput`.
-  - **BEWARE!** It cost a EXPONENTIALLY more than the defaults (default is 125MB/s) 
-- you can use the same `spawn-instance-from-image.py` script for spot instances. Make sure you are allowed by AWS to use them first.
+  - **BEWARE!** it cost a EXPONENTIALLY more than the defaults (default is 125MB/s) 
+- you can use the same `spawn-instance-from-image.py` script for spot instances. make sure you are allowed by AWS to use them first.
 
 # `snap-and-delete-on-stop.py`
 - create a lambda function and copy/paste the code in it.
