@@ -4,7 +4,16 @@ lambda scripts for start/stop instances for cloud gaming in a cost-effective way
 # BEWARE!
 - those lambda scripts are provided AS-IS, if you are not experienced with AWS **DO NOT USE!**
   - AWS bills can go crazy high FAST if you don't know what you're doing.
-  - i will provide no support for these, they are just scripts i've built for myself
+  - **i will provide no support for these, they are just scripts i've built for myself**
+
+# Random bits of advice
+- Use `gp3` instead of `gp2` for volume types, it is most cost efficient / cheaper by about 30%
+- As the following script implies, convert unused volumes to snapshots, and if you really don't use them often don't hesitate to archive the snapshots.
+    - Snapshots are about half cheaper and archives are maybe 10 times even cheaper.
+- As this script uses, `g4dn` are IMO the best instance type to use at the moment and it is good enough to run most AAA games.
+- For huge games like Red Dead Redemption, a costly yet efficient way to speed up loading times and in-game texture streaming is to increase the volume `Throughput`.
+    - **BEWARE!** It cost a EXPONENTIALLY more than the defaults (default is 125MB/s) 
+- You can use the same `spawn-instance-from-image.py` script for spot instances. Make sure you are allowed by AWS to use them first.
 
 # `snap-and-delete-on-stop.py`
 - create a lambda function and copy/paste the code in it.

@@ -32,6 +32,15 @@ def lambda_handler(object, context):
         MaxCount=1,
         InstanceType=INSTANCE_TYPE,
         KeyName=KEYPAIR_NAME,
+	# To use spot instances instead, uncomment the below and tweak to your likings:
+    #     InstanceMarketOptions={
+    #         'MarketType': 'spot',
+    #         'SpotOptions': {
+    #             'MaxPrice': '0.5', # Check "Instances -> Spot Requests -> Pricing history"
+    #             'SpotInstanceType': 'persistent',
+    #             'InstanceInterruptionBehavior': 'stop'
+    #         }
+    #     },
         TagSpecifications=[
             {
                 'ResourceType': 'instance',
