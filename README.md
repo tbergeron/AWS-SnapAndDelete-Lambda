@@ -1,6 +1,3 @@
-# AWS-SnapAndDelete-Lambda
-lambda scripts for start/stop instances for cloud gaming in a cost-effective way
-
 # BEWARE!
 - those scripts are provided AS-IS, if you are not well experienced with AWS **PLEASE DO NOT USE!**
   - AWS bills can go crazy high FAST if you don't know what you're doing.
