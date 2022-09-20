@@ -36,3 +36,13 @@ lambda scripts for start/stop instances for cloud gaming in a cost-effective way
 - follow the same lambda instructions as above (permissions, timeout, etc.)
 - create a function URL (in the lambda configuration) that you can call via `curl`
 - call that url whenever you need to spawn an instance of the last created AMI
+
+# `formatRootEBS.ps1`
+- Script that can be executed on startup to format the ephemeral EBS root volume to NTFS.
+- To execute on startup you can add a `cmd` script to the startup directory ie.
+    - In `C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp`
+    - Create a `startFormatRootEBS.cmd` file and do something like:
+```
+PowerShell -Command "Set-ExecutionPolicy Unrestricted" >> "%TEMP%\StartupLog.txt" 2>&1
+PowerShell %USERPROFILE%\Desktop\script.ps1 >> "%TEMP%\StartupLog.txt" 2>&1
+```
